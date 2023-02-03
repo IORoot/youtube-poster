@@ -21,9 +21,10 @@ jobs:
           request_token: ${{ secrets.REQUEST_TOKEN_B64 }}
 
 
-      - run: |
+      - name: Run YouTube Uploader
+        run: |
             youtubeuploader \
-              -debug
+              -debug \
               -secrets $RUNNER_TEMP/client_secrets.json \
               -cache $RUNNER_TEMP/request.token \
               -filename test_video.mp4 \
