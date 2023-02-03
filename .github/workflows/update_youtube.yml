@@ -1,0 +1,34 @@
+name: Upload to YouTube
+
+on:
+
+  workflow_dispatch:
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: checkout this repo
+        uses: actions/checkout@v2
+
+      - name: Setup YouTube Uploader
+        uses: AnimMouse/setup-youtubeuploader@v1
+        with:
+          client_secrets: ${{ secrets.CLIENT_SECRETS }}
+          request_token: ${{ secrets.REQUEST_TOKEN }}
+
+
+      - run: |
+            youtubeuploader \
+              -debug
+              -secrets $RUNNER_TEMP/client_secrets.json \
+              -cache $RUNNER_TEMP/request.token \
+              -filename test_video.mp4 \
+              -description "Test video for video uploader" \
+              -tags tag1,tag2,tag3 \
+              -title "test video" \
+
+
