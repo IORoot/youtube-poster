@@ -2,17 +2,33 @@ name: Upload to YouTube
 
 on:
 
+  push:
+    branches:
+      - master
+
   workflow_dispatch:
+
+env:
+  VIDEO_URL: ${{ github.event.head_commit.message }}
 
 jobs:
 
   build:
+
+    # The commit message should be the URL of the video you want to retrieve.
+    if: "contains(github.event.head_commit.message, 'http')"
+    
     runs-on: ubuntu-latest
 
     steps:
 
       - name: checkout this repo
         uses: actions/checkout@v2
+
+      - name: download video from url
+        run: |
+            wget -O ./video.mp4 ${{ env.VIDEO_URL }} 
+
 
       - name: Setup YouTube Uploader
         uses: AnimMouse/setup-youtubeuploader@v1
@@ -27,9 +43,11 @@ jobs:
               -debug \
               -secrets $RUNNER_TEMP/client_secrets.json \
               -cache $RUNNER_TEMP/request.token \
-              -filename test_video.mp4 \
-              -description "Test video for video uploader" \
-              -tags tag1,tag2,tag3 \
-              -title "test video" \
+              -filename video.mp4  \
+              -metaJSON metadata.json   \
+              -metaJSONout metaout.json \
 
 
+      - name: output metadata returned
+        run: |
+            cat metaout.json
