@@ -41,7 +41,7 @@ jobs:
 
 
       - name: Setup YouTube Uploader
-        uses: AnimMouse/setup-youtubeuploader@v1
+        uses: AnimMouse/setup-youtubeuploader@v2
         with:
           client_secrets: ${{ secrets.CLIENT_SECRETS_B64 }}
           request_token: ${{ secrets.REQUEST_TOKEN_B64 }}
