@@ -1,12 +1,18 @@
-name: Upload to YouTube
+name: Upload to YouTube V2
 
 on:
 
-  # push:
-  #   branches:
-  #     - master
-
   workflow_dispatch:
+    inputs:
+      video_url:
+        description: "URL of the video to download"
+        required: true
+        type: string
+      metadata:
+        description: "YouTube metadata in JSON format"
+        required: true
+        type: string
+
 
 env:
   VIDEO_URL: ${{ github.event.head_commit.message }}
@@ -14,20 +20,24 @@ env:
 jobs:
 
   build:
-
-    # The commit message should be the URL of the video you want to retrieve.
-    if: "contains(github.event.head_commit.message, 'http')"
     
     runs-on: ubuntu-latest
 
     steps:
 
+
       - name: checkout this repo
         uses: actions/checkout@v2
 
+
       - name: download video from url
         run: |
-            wget -O ./video.mp4 ${{ env.VIDEO_URL }} 
+            wget -O ./video.mp4 "${{ github.event.inputs.video_url }}"
+
+
+      - name: Write metadata to file
+        run: |
+          echo '${{ github.event.inputs.metadata }}' > metadata.json
 
 
       - name: Setup YouTube Uploader
