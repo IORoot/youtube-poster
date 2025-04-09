@@ -34,6 +34,7 @@ jobs:
       - name: download video from url
         run: |
             wget -O ./video.mp4 "${{ github.event.inputs.video_url }}"
+            wget -O ./thumbnail.png "${{ github.event.inputs.thumbnail }}"
 
 
       - name: Write metadata to file
@@ -55,7 +56,7 @@ jobs:
               -secrets $RUNNER_TEMP/client_secrets.json \
               -cache $RUNNER_TEMP/request.token \
               -filename video.mp4  \
-              -thumbnail ${{ github.event.inputs.thumbnail }}  \
+              -thumbnail thumbnail.png \
               -metaJSON metadata.json   \
               -metaJSONout metaout.json \
 
