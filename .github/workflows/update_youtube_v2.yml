@@ -8,14 +8,15 @@ on:
         description: "URL of the video to download"
         required: true
         type: string
+      thumbnail:
+        description: "URL of the thumbnail to download"
+        required: false
+        type: string
+        default: ''
       metadata:
         description: "YouTube metadata in JSON format"
         required: true
         type: string
-
-
-env:
-  VIDEO_URL: ${{ github.event.head_commit.message }}
 
 jobs:
 
@@ -54,6 +55,7 @@ jobs:
               -secrets $RUNNER_TEMP/client_secrets.json \
               -cache $RUNNER_TEMP/request.token \
               -filename video.mp4  \
+              -thumbnail ${{ github.event.inputs.thumbnail }}  \
               -metaJSON metadata.json   \
               -metaJSONout metaout.json \
 
