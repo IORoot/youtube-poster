@@ -39,7 +39,7 @@ jobs:
 
       - name: Write metadata to file
         run: |
-          echo '${{ github.event.inputs.metadata }}' > metadata.json
+          echo '${{ github.event.inputs.metadata }}' | jq '.' > metadata.json
 
 
       - name: Setup YouTube Uploader
