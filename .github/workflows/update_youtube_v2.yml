@@ -39,7 +39,7 @@ jobs:
 
       - name: Write metadata to file
         run: |
-          echo '${{ github.event.inputs.metadata }}' | jq '.' > metadata.json
+          echo -e '${{ github.event.inputs.metadata }}' | jq '.' > metadata.json
           cat metadata.json
 
 
