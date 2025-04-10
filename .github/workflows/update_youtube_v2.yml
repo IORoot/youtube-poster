@@ -40,16 +40,16 @@ jobs:
       - name: Write metadata to file
         run: |
           echo '${{ github.event.inputs.metadata }}' | sed 's/\\n//g; s/\\t//g; s/\\"/"/g; s/\\//g; s/^.\(.*\).$/\1/' | jq '.' > metadata2.json
-          cat metadata2.json | sed 's/rnrn/\\r\\n\\r\\n/g' | sed 's/\.rn/\\r\\n/g' | jq '.' > metadata.json
-          cat metadata2.json 
-          cat metadata.json 
+          cat metadata2.json | sed 's/rnrn/\\r\\n\\r\\n/g' | sed 's/\.rn/\\r\\n/g' | sed 's/:rn/\\r\\n/g' | jq '.' > metadata.json
 
-      # ╭───────────────────────────────────────────────────────╮
-      # │                          SSH                          │
-      # ╰───────────────────────────────────────────────────────╯
-      # - name: 🪲 DEBUG - Setup upterm session
-      #   uses: lhotari/action-upterm@v1
 
+      - name: echo metadata2
+        run: |
+          cat metadata2.json
+
+      - name: echo metadata
+        run: |
+          cat metadata.json
 
       - name: Setup YouTube Uploader
         uses: AnimMouse/setup-youtubeuploader@v2
