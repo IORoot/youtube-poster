@@ -39,8 +39,9 @@ jobs:
 
       - name: Write metadata to file
         run: |
-          echo '${{ github.event.inputs.metadata }}' | sed 's/\\n//g; s/\\t//g; s/\\"/"/g; s/\\//g; s/^.\(.*\).$/\1/' | jq '.' > metadata2.json
-          cat metadata2.json | sed 's/rnrn/\\r\\n\\r\\n/g' | sed 's/\.rn/\\r\\n/g' | sed 's/:rn/\\r\\n/g' | jq '.' > metadata.json
+          echo '${{ github.event.inputs.metadata }}' > metadata.json
+        # echo '${{ github.event.inputs.metadata }}' | sed 's/\\n//g; s/\\t//g; s/\\"/"/g; s/\\//g; s/^.\(.*\).$/\1/' | jq '.' > metadata2.json
+        # cat metadata2.json | sed 's/rnrn/\\r\\n\\r\\n/g' | sed 's/\.rn/\\r\\n/g' | sed 's/:rn/\\r\\n/g' | jq '.' > metadata.json
 
 
       - name: echo metadata2
