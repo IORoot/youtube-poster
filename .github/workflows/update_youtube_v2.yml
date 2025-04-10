@@ -39,14 +39,14 @@ jobs:
 
       - name: Write metadata to file
         run: |
-          echo '${{ github.event.inputs.metadata }}'  > metadata.json
+          echo '${{ github.event.inputs.metadata }}' | sed 's/\\n//g; s/\\t//g; s/\\"/"/g; s/\\//g; s/^.\(.*\).$/\1/' | jq '.' > metadata.json
           cat metadata.json
 
       # ╭───────────────────────────────────────────────────────╮
       # │                          SSH                          │
       # ╰───────────────────────────────────────────────────────╯
-      - name: 🪲 DEBUG - Setup upterm session
-        uses: lhotari/action-upterm@v1
+      # - name: 🪲 DEBUG - Setup upterm session
+      #   uses: lhotari/action-upterm@v1
 
 
       - name: Setup YouTube Uploader
