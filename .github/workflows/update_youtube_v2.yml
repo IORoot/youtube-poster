@@ -44,7 +44,7 @@ jobs:
 
       - name: Parse metadata 
         run: |
-          cat metadata2.json | sed 's/rnrn/\\r\\n\\r\\n/g' | sed 's/\.rn/\\r\\n/g' | sed 's/:rn/\\r\\n/g' | jq '.' > metadata.json
+          cat metadata2.json | sed 's/rnrn/\\r\\n\\r\\n/g' | sed 's/\.rn/\\r\\n/g' | sed 's/:rn/\\r\\n/g' | sed 's/\nnnn/\\r\\n\\r\\n/g' | jq '.' > metadata.json
 
         
       # ╭───────────────────────────────────────────────────────╮
