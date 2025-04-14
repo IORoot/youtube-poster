@@ -51,7 +51,7 @@ jobs:
           domain=$(echo "$url" | sed -E 's|(https?://[^/]+).*|\1|')
           path=$(echo "$url" | sed -E 's|https?://[^/]+/||')
           num=$(echo "$path" | sed -E 's/.*_([0-9]+)-.*/\1/')
-          modified_path="${path%.*}_$num-3_4.png"
+          modified_path="${path%.*}_$num-16_9.png"
           final_path=$(echo "$modified_path" | sed 's|/|/screenshots/|')
           final_url="$domain/$final_path"
           echo "Final download URL: $final_url"
@@ -61,8 +61,8 @@ jobs:
       # ╭───────────────────────────────────────────────────────╮
       # │                          SSH                          │
       # ╰───────────────────────────────────────────────────────╯
-      - name: 🪲 DEBUG - Setup upterm session
-        uses: lhotari/action-upterm@v1
+      # - name: 🪲 DEBUG - Setup upterm session
+      #   uses: lhotari/action-upterm@v1
 
 
       - name: Setup YouTube Uploader
