@@ -34,7 +34,6 @@ jobs:
       - name: download video from url
         run: |
             wget -O ./video.mp4 "${{ github.event.inputs.video_url }}"
-            wget -O ./thumbnail.png "${{ github.event.inputs.thumbnail }}"
 
 
       - name: Write metadata to file
@@ -46,12 +45,26 @@ jobs:
         run: |
           cat metadata2.json | sed 's/rnrn/\\r\\n\\r\\n/g' | sed 's/\.rn/\\r\\n/g' | sed 's/:rn/\\r\\n/g' | sed 's/\nnnn/\\r\\n\\r\\n/g' | jq '.' > metadata.json
 
-        
+      - name: Figure out the image filename
+        run: |
+          input="Balance-Mounting/Tutorial-Balancing-Mounting_1-Step-Vault-Reposition.mp4"
+
+          num=$(echo "$input" | sed -E 's/.*_([0-9]+)-.*/\1/')
+
+          output="${input%.*}_$num-16_9.png"
+
+          final_output=$(echo "$output" | sed 's|/|/portrait/|')
+
+          echo "Final output: $final_output"
+
+        # wget -O ./thumbnail.png "${{ github.event.inputs.thumbnail }}"
+
+
       # ╭───────────────────────────────────────────────────────╮
       # │                          SSH                          │
       # ╰───────────────────────────────────────────────────────╯
-      # - name: 🪲 DEBUG - Setup upterm session
-      #   uses: lhotari/action-upterm@v1
+      - name: 🪲 DEBUG - Setup upterm session
+        uses: lhotari/action-upterm@v1
 
 
       - name: Setup YouTube Uploader
