@@ -45,19 +45,17 @@ jobs:
         run: |
           cat metadata2.json | sed 's/rnrn/\\r\\n\\r\\n/g' | sed 's/\.rn/\\r\\n/g' | sed 's/:rn/\\r\\n/g' | sed 's/\nnnn/\\r\\n\\r\\n/g' | jq '.' > metadata.json
 
-      - name: Figure out the image filename
+      - name: Download thumbnail
         run: |
-          input="Balance-Mounting/Tutorial-Balancing-Mounting_1-Step-Vault-Reposition.mp4"
-
-          num=$(echo "$input" | sed -E 's/.*_([0-9]+)-.*/\1/')
-
-          output="${input%.*}_$num-16_9.png"
-
-          final_output=$(echo "$output" | sed 's|/|/portrait/|')
-
-          echo "Final output: $final_output"
-
-        # wget -O ./thumbnail.png "${{ github.event.inputs.thumbnail }}"
+          url="${{ github.event.inputs.video_url }}"
+          domain=$(echo "$url" | sed -E 's|(https?://[^/]+).*|\1|')
+          path=$(echo "$url" | sed -E 's|https?://[^/]+/||')
+          num=$(echo "$path" | sed -E 's/.*_([0-9]+)-.*/\1/')
+          modified_path="${path%.*}_$num-3_4.png"
+          final_path=$(echo "$modified_path" | sed 's|/|/screenshots/|')
+          final_url="$domain/$final_path"
+          echo "Final download URL: $final_url"
+          wget -O ./thumbnail.png "$final_url"
 
 
       # ╭───────────────────────────────────────────────────────╮
