@@ -8,7 +8,7 @@ on:
         description: "URL of the video to download"
         required: true
         type: string
-      thumbnail:
+      thumbnail_url:
         description: "URL of the thumbnail to download"
         required: false
         type: string
@@ -45,17 +45,21 @@ jobs:
         run: |
           cat metadata2.json | sed 's/rnrn/\\r\\n\\r\\n/g' | sed 's/\.rn/\\r\\n/g' | sed 's/:rn/\\r\\n/g' | sed 's/\nnnn/\\r\\n\\r\\n/g' | jq '.' > metadata.json
 
+      # - name: Download thumbnail
+      #   run: |
+      #     url="${{ github.event.inputs.video_url }}"
+      #     domain=$(echo "$url" | sed -E 's|(https?://[^/]+).*|\1|')
+      #     path=$(echo "$url" | sed -E 's|https?://[^/]+/||')
+      #     num=$(echo "$path" | sed -E 's/.*_([0-9]+)-.*/\1/')
+      #     modified_path="${path%.*}_$num-16_9.png"
+      #     final_path=$(echo "$modified_path" | sed 's|/|/screenshots/|')
+      #     final_url="$domain/$final_path"
+      #     echo "Final download URL: $final_url"
+      #     wget -O ./thumbnail.png "$final_url"
+
       - name: Download thumbnail
         run: |
-          url="${{ github.event.inputs.video_url }}"
-          domain=$(echo "$url" | sed -E 's|(https?://[^/]+).*|\1|')
-          path=$(echo "$url" | sed -E 's|https?://[^/]+/||')
-          num=$(echo "$path" | sed -E 's/.*_([0-9]+)-.*/\1/')
-          modified_path="${path%.*}_$num-16_9.png"
-          final_path=$(echo "$modified_path" | sed 's|/|/screenshots/|')
-          final_url="$domain/$final_path"
-          echo "Final download URL: $final_url"
-          wget -O ./thumbnail.png "$final_url"
+          wget -O ./thumbnail.png "${{ github.event.inputs.thumbnail_url }}"
 
 
       # ╭───────────────────────────────────────────────────────╮
